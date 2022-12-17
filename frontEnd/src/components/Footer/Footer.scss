@@ -1,0 +1,23 @@
+@import '../../styles/colors.module';
+
+.footer {
+  background-color: $mainColor;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.footer__links-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.footer__link {
+  display: block;
+  max-width: 10rem;
+  margin-bottom: 1rem;
+}
+
+.social-link__img {
+  width: 100%;
+}
