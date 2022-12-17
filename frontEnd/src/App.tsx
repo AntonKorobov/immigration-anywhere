@@ -14,13 +14,11 @@ export function App() {
     <>
       <Header />
       <main className="main">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<Page404 />} />
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<Page404 />} />
+        </Routes>
       </main>
       <Footer />
     </>
