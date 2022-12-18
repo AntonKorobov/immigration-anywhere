@@ -17,7 +17,7 @@ export const backend = createApi({
     baseUrl: 'https://immigration-anywhere-be.up.railway.app/',
     mode: 'cors',
   }),
-
+  tagTypes: ['MarkerTag'],
   endpoints: (builder) => ({
     createLocation: builder.mutation<LocationPOSTResponse, LocationPOSTRequest>({
       query: (payload) => ({
@@ -32,6 +32,7 @@ export const backend = createApi({
         method: 'GET',
         body: payload,
       }),
+      providesTags: ['MarkerTag'],
     }),
     createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
       query: (payload) => ({
@@ -39,6 +40,7 @@ export const backend = createApi({
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: ['MarkerTag'],
     }),
     getReviews: builder.query<ReviewsGETResponse[], string>({
       query: (payload) => ({
