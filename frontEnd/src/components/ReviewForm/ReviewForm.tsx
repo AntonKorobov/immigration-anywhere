@@ -1,5 +1,4 @@
-import { ModalWindow } from 'components/ModalWindow/ModalWindow';
-import { useActions } from 'hooks/useActions';
+import { Loading } from 'components/Loading/Loading';
 import React, { useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -21,9 +20,12 @@ interface ReviewFormInterface {
 export function ReviewForm() {
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
 
-  const { data, isSuccess, isError } = useGetGeolocationQuery(reviewFormData?.location || '', {
-    skip: Boolean(!reviewFormData?.location),
-  });
+  const { data, isSuccess, isError, isLoading, isUninitialized } = useGetGeolocationQuery(
+    reviewFormData?.location || '',
+    {
+      skip: Boolean(!reviewFormData?.location),
+    }
+  );
 
   const [createLocation, createLocationResponse] = useCreateLocationMutation();
   const [createReview, createReviewResponse] = useCreateReviewMutation();
@@ -63,6 +65,8 @@ export function ReviewForm() {
     <>
       {createReviewResponse.isSuccess ? (
         <h3>Отзыв создан успешно</h3>
+      ) : isSuccess || isLoading ? (
+        <Loading />
       ) : (
         <form
           className="sign-in-form"
