@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useCreateLocationMutation, useCreateReviewMutation } from 'services/backend';
 
 import './ReviewForm.scss';
 
@@ -12,6 +13,11 @@ interface ReviewFormInterface {
 }
 
 export function ReviewForm() {
+  const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
+
+  const [createLocation, createLocationResponse] = useCreateLocationMutation();
+  const [createReview, createReviewResponse] = useCreateReviewMutation();
+
   const {
     register,
     handleSubmit,
@@ -20,7 +26,24 @@ export function ReviewForm() {
 
   const onSubmitHandler: SubmitHandler<ReviewFormInterface> = (data) => {
     console.log(data);
+    setReviewFormData(data); //Ok?
+    createLocation({
+      locationId: 'id',
+      locationName: 'name',
+      countryId: 'id',
+      coordinates: { latitude: 'string', longitude: 'string' },
+    });
   };
+
+  useEffect(() => {
+    if (createLocationResponse.isSuccess && reviewFormData)
+      createReview({
+        userName: reviewFormData.name,
+        locationId: 'string',
+        rating: reviewFormData.rating,
+        reviewText: reviewFormData.reviewText,
+      });
+  }, [createLocationResponse]);
 
   return (
     <form
