@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useCreateLocationMutation, useCreateReviewMutation } from 'services/backend';
+import {
+  useCreateLocationMutation,
+  useCreateReviewMutation,
+  useGetGeolocationQuery,
+} from 'services/backend';
 
 import './ReviewForm.scss';
 
@@ -13,7 +17,12 @@ interface ReviewFormInterface {
 }
 
 export function ReviewForm() {
+  // console.log(useGetGeolocationQuery('Minsk'));
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
+
+  const { data, isSuccess, isError } = useGetGeolocationQuery(reviewFormData?.location || '', {
+    skip: Boolean(!reviewFormData?.location),
+  });
 
   const [createLocation, createLocationResponse] = useCreateLocationMutation();
   const [createReview, createReviewResponse] = useCreateReviewMutation();
@@ -24,15 +33,21 @@ export function ReviewForm() {
     formState: { errors },
   } = useForm<ReviewFormInterface>();
 
-  const onSubmitHandler: SubmitHandler<ReviewFormInterface> = (data) => {
-    console.log(data);
-    setReviewFormData(data); //Ok?
-    createLocation({
-      locationId: 'id',
-      locationName: 'name',
-      countryId: 'id',
-      coordinates: { latitude: 'string', longitude: 'string' },
-    });
+  const onSubmitHandler: SubmitHandler<ReviewFormInterface> = (formData) => {
+    console.log(formData);
+    setReviewFormData(formData); //Ok?
+    if (isSuccess && data.data.results.length) {
+      //if geolocation found
+      createLocation({
+        locationId: data.data.results[0].map_url || '', //hope it is unique
+        locationName: formData.name,
+        countryId: data.data.results[0].country_code || '', //TODO show all results and chose
+        coordinates: {
+          latitude: data.data.results[0].latitude?.toString() || '',
+          longitude: data.data.results[0].longitude?.toString() || '',
+        },
+      });
+    }
   };
 
   useEffect(() => {
