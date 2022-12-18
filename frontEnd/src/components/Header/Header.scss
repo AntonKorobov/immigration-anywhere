@@ -1,15 +1,32 @@
 @import '../../styles/colors.module';
+@import '../../styles/fonts.module';
 
 .header {
-  background-color: $mainColor;
+  background-color: $backgroundColor;
 }
 
 .title {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+}
+.title:hover {
+  text-decoration: none;
 }
 
 .title__h1 {
   display: inline-block;
   margin: 0;
+  font-weight: $fwBold;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  transition: transform .3s;
+}
+.title:hover .title__h1 {
+  text-decoration: none;
+  color: white;
+  transform: translateY(-2px);
+}
+.highlight {
+  color: $highlightColor;
+  transition: color .3s;
 }

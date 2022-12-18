@@ -1,7 +1,44 @@
+@import '../../styles/colors.module';
+@import '../../styles/fonts.module';
+
 .main-container {
   width: 100%;
+  color: $mainTextColor;
 }
 
 .map {
   height: 60vw;
+}
+
+.section-top {
+  position: relative;
+  padding: 100px 0 50px;
+  text-align: center;
+  color: $lightMainTextColor;
+}
+.top__header {
+  font-weight: $fwBold;
+}
+.top__subheader {
+  margin-top: 1rem;;
+  font-size: 1.6rem;
+}
+
+.top__plane-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-40%);
+  width: 800px;
+  height: 100%;
+}
+.top__plane-container .vector_down {
+  position: absolute;
+  right: 120px;
+  top: -30px;
+}
+.top__plane-container .plane_down {
+  position: absolute;
+  top: 100px;
+  right: 20px;
 }

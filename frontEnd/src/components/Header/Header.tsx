@@ -10,7 +10,7 @@ export function Header() {
           <img className="title__img" src="assets/logo 1.png" alt="logo" />
           <h1 className="title__h1 h1">
             EMIGRATION <br />
-            ANYWHERE
+            <span className="highlight">ANYWHERE</span>
           </h1>
         </a>
       </div>

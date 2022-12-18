@@ -1,0 +1,41 @@
+@import '../../styles/fonts.module';
+@import '../../styles/colors.module';
+
+.section-message {
+  position: relative;
+  padding-bottom: 150px;
+}
+
+.message__header {
+  margin-top: 40px;
+  font-weight: $fwNormal;
+  color: $lightMainTextColor;
+  text-align: center;
+}
+
+.message__button {
+  font-weight: $fwSemiBold;
+  font-size: 1.3rem;
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 30px;
+}
+
+.message__plane-container {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-60%);
+  width: 700px;
+  height: 10px;
+}
+.message__plane-container .vector_up {
+  position: absolute;
+  top: 110px;
+  left: 100px;
+}
+.message__plane-container .plane_up {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
