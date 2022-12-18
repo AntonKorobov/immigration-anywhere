@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
 
 import './Main.scss';
 
 import { ReviewSection } from 'components/ReviewSection/ReviewSection';
-import { ReviewPropsInterface } from 'types/reviewTypes';
 import { Review } from 'components/Review/Review';
-import WorldMap from 'components/WorldMap/WorldMap';
+import { WorldMap } from 'components/WorldMap/WorldMap';
+import { useGetReviewsQuery } from 'services/backend';
+import { useTypedSelector } from 'hooks/useTypedSelector';
+import { Loading } from 'components/Loading/Loading';
+import { useActions } from 'hooks/useActions';
 
 export function Main() {
+  const { locationId } = useTypedSelector((state) => state.globalState);
+  const { setLocationId } = useActions();
+
   const [isReviewsOpen, setIsReviewsOpen] = useState(false);
+
+  const { data, isSuccess, isError, isLoading } = useGetReviewsQuery(locationId || '', {
+    skip: !locationId, //!!!
+  });
 
   const handleCloseReviews = () => {
     setIsReviewsOpen(false);
-  };
-
-  const reviewExapmle: ReviewPropsInterface = {
-    id: 'id',
-    userName: 'Name',
-    rating: 5,
-    reviewText:
-      ' Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est.',
+    setLocationId('');
   };
 
   return (
@@ -37,24 +40,24 @@ export function Main() {
         </div>
         <div className="top__subheader">Вот что они говорят:</div>
       </section>
-
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
-
       <ReviewSection />
-
-      {/* <button onClick={() => setIsReviewsOpen(true)}>Open reviews</button> */}
-
       <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Reviews'}>
         <>
-          {Array.from(Array(5)).map((item, index) => (
-            <Review
-              key={reviewExapmle.id + index}
-              id={reviewExapmle.id}
-              userName={reviewExapmle.userName}
-              rating={reviewExapmle.rating}
-              reviewText={reviewExapmle.reviewText}
-            />
-          ))}
+          {isSuccess && !isLoading ? (
+            data?.map((item) => (
+              <Review
+                key={item.id}
+                id={item.id}
+                userName={item.userName}
+                rating={Number(item.rating)}
+                reviewText={item.reviewText}
+              />
+            ))
+          ) : (
+            <Loading />
+          )}
+          {data?.length === 0 && <h2>Нет отзывов</h2>}
         </>
       </ModalWindow>
     </div>

@@ -1,17 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface GlobalStateInterface {
-  page: string;
+  locationId: string;
+  isReviewFormOpen: boolean;
 }
 
 const initialState: GlobalStateInterface = {
-  page: 'Main',
+  locationId: '',
+  isReviewFormOpen: false,
 };
 
 export const globalStateActionsCreator = createSlice({
   name: 'globalState',
   initialState,
-  reducers: {},
+  reducers: {
+    setLocationId: (state, action: PayloadAction<string, string>) => {
+      return {
+        ...state,
+        locationId: action.payload,
+      };
+    },
+    setIsReviewFormOpen: (state, action: PayloadAction<boolean, string>) => {
+      return {
+        ...state,
+        isReviewFormOpen: action.payload,
+      };
+    },
+  },
 });
 
 export const globalStateActions = globalStateActionsCreator.actions;

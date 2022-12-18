@@ -6,52 +6,49 @@ import './WorldMap.scss';
 
 import Pin from './WorldMapPin';
 
-import CITIES from '../../store/cities.json';
+import { useGetLocationsQuery } from 'services/backend';
+import { Loading } from 'components/Loading/Loading';
+import { useDispatch } from 'react-redux';
+import { useActions } from 'hooks/useActions';
 
 const TOKEN =
   'pk.eyJ1Ijoiem94YWwiLCJhIjoiY2xicnI4Z25zMGptNjNvbnRqbmY1cHRvdyJ9.GHmqXKeWVadi-Bq0dEowCQ'; // Set your mapbox token here
-
-// interface popupInterface {
-//   city: string;
-//   population: string;
-//   image: string;
-//   state: string;
-//   latitude: number;
-//   longitude: number;
-// }
 
 interface GlobalMapInterface {
   setIsReviewsOpen: (value: boolean) => void;
 }
 
-export default function GlobalMap({ setIsReviewsOpen }: GlobalMapInterface) {
+export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
+  const { setLocationId } = useActions();
   // const [popupInfo, setPopupInfo] = useState<popupInterface | null>(null);
+  const { data } = useGetLocationsQuery(); //update after creating review
 
   const pins = react.useMemo(
     () =>
-      CITIES.map((location, index) => (
+      data?.map((location) => (
         <Marker
-          key={`marker-${index}`}
-          longitude={location.longitude}
-          latitude={location.latitude}
+          key={location.id}
+          longitude={Number(location.coordinates.longitude)}
+          latitude={Number(location.coordinates.latitude)}
           anchor="bottom"
           onClick={(e) => {
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
+            setLocationId(location.id);
             setIsReviewsOpen(true);
           }}
         >
           <Pin />
         </Marker>
       )),
-    []
+    [data]
   );
   return (
     <Map
       initialViewState={{
-        latitude: 40,
-        longitude: -100,
+        latitude: 53.893,
+        longitude: 27.567,
         zoom: 3.5,
         bearing: 0,
         pitch: 0,
@@ -63,6 +60,7 @@ export default function GlobalMap({ setIsReviewsOpen }: GlobalMapInterface) {
     >
       <GeolocateControl position="top-left" />
 
+      {/* {isLoading && <Loading />} */}
       {pins}
 
       {/* {popupInfo && (

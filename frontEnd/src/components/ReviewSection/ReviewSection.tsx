@@ -1,11 +1,14 @@
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
 import { ReviewForm } from 'components/ReviewForm/ReviewForm';
-import React, { useState } from 'react';
+import { useActions } from 'hooks/useActions';
+import { useTypedSelector } from 'hooks/useTypedSelector';
+import React from 'react';
 
 import './ReviewSection.scss';
 
 export function ReviewSection() {
-  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const { isReviewFormOpen } = useTypedSelector((state) => state.globalState);
+  const { setIsReviewFormOpen } = useActions();
 
   const handleCloseReviewForm = () => {
     setIsReviewFormOpen(false);
