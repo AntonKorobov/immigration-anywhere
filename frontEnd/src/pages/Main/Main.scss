@@ -1,4 +1,5 @@
 @import '../../styles/colors.module';
+@import '../../styles/fonts.module';
 
 .main-container {
   width: 100%;
@@ -7,4 +8,37 @@
 
 .map {
   height: 60vw;
+}
+
+.tell-section {
+  position: relative;
+  padding: 100px 0 50px;
+  text-align: center;
+  color: $lightMainTextColor;
+}
+.tell__header {
+  font-weight: $fwBold;
+}
+.tell__subheader {
+  margin-top: 1rem;;
+  font-size: 1.6rem;
+}
+
+.tell__plane-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-40%);
+  width: 900px;
+  height: 100%;
+}
+.tell__plane-container .vector {
+  position: absolute;
+  right: 120px;
+  top: -30px;
+}
+.tell__plane-container .plane {
+  position: absolute;
+  top: 100px;
+  right: 20px;
 }

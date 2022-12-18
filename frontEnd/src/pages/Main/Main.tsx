@@ -26,6 +26,17 @@ export function Main() {
 
   return (
     <div className="main-container">
+      <section className="tell-section">
+        <div className="tell__plane-container">
+          <img className="vector" src="assets/vector_down.png" />
+          <img className="plane" src="assets/plane_down.png" />
+        </div>
+        <div className="tell__header">
+          Большое количество белорусов сейчас живут в<br />
+          различных странах мира.
+        </div>
+        <div className="tell__subheader">Вот что они говорят:</div>
+      </section>
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
       {/* <button onClick={() => setIsReviewsOpen(true)}>Open reviews</button> */}
       <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Reviews'}>
