@@ -10,21 +10,21 @@
   height: 60vw;
 }
 
-.tell-section {
+.section-top {
   position: relative;
   padding: 100px 0 50px;
   text-align: center;
   color: $lightMainTextColor;
 }
-.tell__header {
+.top__header {
   font-weight: $fwBold;
 }
-.tell__subheader {
+.top__subheader {
   margin-top: 1rem;;
   font-size: 1.6rem;
 }
 
-.tell__plane-container {
+.top__plane-container {
   position: absolute;
   top: 0;
   left: 50%;
@@ -32,12 +32,12 @@
   width: 900px;
   height: 100%;
 }
-.tell__plane-container .vector {
+.top__plane-container .vector_down {
   position: absolute;
   right: 120px;
   top: -30px;
 }
-.tell__plane-container .plane {
+.top__plane-container .plane_down {
   position: absolute;
   top: 100px;
   right: 20px;
