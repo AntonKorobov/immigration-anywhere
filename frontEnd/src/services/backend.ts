@@ -15,7 +15,13 @@ export const backend = createApi({
   reducerPath: 'backend',
   baseQuery: fetchBaseQuery({
     baseUrl: '',
+    // prepareHeaders: (headers) => {
+    //   headers.set('Access-Control-Allow-Origin', '*');
+    //   return headers;
+    // },
+    mode: 'cors',
   }),
+
   endpoints: (builder) => ({
     createLocation: builder.mutation<LocationPOSTResponse, LocationPOSTRequest>({
       query: (payload) => ({
@@ -47,7 +53,7 @@ export const backend = createApi({
     }),
     getGeolocation: builder.query<GeolocationResponse, string>({
       query: (payload) => ({
-        url: `http://api.positionstack.com/v1/forward`,
+        url: `https://immigration-anywhere-be.up.railway.app/google-maps-api`,
         method: 'GET',
         params: { access_key: TOKEN_GEOLOCATION, query: payload },
       }),
