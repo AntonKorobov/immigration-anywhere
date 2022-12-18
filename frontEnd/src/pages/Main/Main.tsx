@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
 
 import './Main.scss';
+
 import { ReviewSection } from 'components/ReviewSection/ReviewSection';
 import { ReviewPropsInterface } from 'types/reviewTypes';
 import { Review } from 'components/Review/Review';
@@ -25,8 +26,24 @@ export function Main() {
 
   return (
     <div className="main-container">
+      <section className="section-top">
+        <div className="top__plane-container">
+          <img className="vector_down" src="assets/vector_down.png" />
+          <img className="plane_down" src="assets/plane_down.png" />
+        </div>
+        <div className="top__header">
+          Большое количество белорусов сейчас живут в<br />
+          различных странах мира.
+        </div>
+        <div className="top__subheader">Вот что они говорят:</div>
+      </section>
+
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
+
+      <ReviewSection />
+
       {/* <button onClick={() => setIsReviewsOpen(true)}>Open reviews</button> */}
+
       <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Reviews'}>
         <>
           {Array.from(Array(5)).map((item, index) => (
@@ -40,7 +57,6 @@ export function Main() {
           ))}
         </>
       </ModalWindow>
-      <ReviewSection />
     </div>
   );
 }
