@@ -13,8 +13,10 @@ export function ReviewSection() {
 
   return (
     <>
-      <p>Расскажите нам про жизнь в текущей локации</p>
-      <button onClick={() => setIsReviewFormOpen(true)}>Рассказать</button>
+      <p className="describe">Расскажите нам про жизнь в текущей локации</p>
+      <button className="tell-button btn btn-primary" onClick={() => setIsReviewFormOpen(true)}>
+        Рассказать
+      </button>
       <ModalWindow
         show={isReviewFormOpen}
         onHide={handleCloseReviewForm}

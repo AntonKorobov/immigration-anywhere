@@ -1,0 +1,12 @@
+@import '../../styles/fonts.module';
+@import '../../styles/colors.module';
+
+.describe {
+  font-weight: $fwNormal;
+  color: $lightMainTextColor;
+}
+
+.tell-button {
+  font-weight: $fwSemiBold;
+}
+
