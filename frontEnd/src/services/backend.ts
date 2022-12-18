@@ -15,10 +15,6 @@ export const backend = createApi({
   reducerPath: 'backend',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://immigration-anywhere-be.up.railway.app/',
-    // prepareHeaders: (headers) => {
-    //   headers.set('Access-Control-Allow-Origin', '*');
-    //   return headers;
-    // },
     mode: 'cors',
   }),
 
@@ -44,11 +40,10 @@ export const backend = createApi({
         body: payload,
       }),
     }),
-    getReviews: builder.query<ReviewsGETResponse, void>({
+    getReviews: builder.query<ReviewsGETResponse[], string>({
       query: (payload) => ({
-        url: `/reviews`,
+        url: `/reviews/${payload}`,
         method: 'GET',
-        body: payload,
       }),
     }),
     getGeolocation: builder.query<GeolocationResponse, string>({

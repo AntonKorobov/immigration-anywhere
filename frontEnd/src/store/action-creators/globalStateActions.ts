@@ -1,17 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface GlobalStateInterface {
-  page: string;
+  locationId: string;
 }
 
 const initialState: GlobalStateInterface = {
-  page: 'Main',
+  locationId: '',
 };
 
 export const globalStateActionsCreator = createSlice({
   name: 'globalState',
   initialState,
-  reducers: {},
+  reducers: {
+    setLocationId: (state, action: PayloadAction<string, string>) => {
+      return {
+        ...state,
+        locationId: action.payload,
+      };
+    },
+  },
 });
 
 export const globalStateActions = globalStateActionsCreator.actions;

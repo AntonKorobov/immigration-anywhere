@@ -18,7 +18,6 @@ interface ReviewFormInterface {
 }
 
 export function ReviewForm() {
-  // console.log(useGetGeolocationQuery('Minsk'));
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
 
   const { data, isSuccess, isError } = useGetGeolocationQuery(reviewFormData?.location || '', {
@@ -43,7 +42,6 @@ export function ReviewForm() {
     if (isSuccess) {
       console.log(data);
       createLocation({
-        // locationId: data.data[0].map_url || 'firstId', //hope it is unique
         locationName: data.data[0].name || '',
         countryId: data.data[0].country_code || '', //TODO show all results and chose
         latitude: data.data[0].latitude?.toString() || '',
@@ -56,7 +54,7 @@ export function ReviewForm() {
     if (createLocationResponse.isSuccess && reviewFormData)
       createReview({
         userName: reviewFormData.name,
-        locationId: 'string',
+        locationId: createLocationResponse.data.locationId,
         rating: reviewFormData.rating,
         reviewText: reviewFormData.reviewText,
       });

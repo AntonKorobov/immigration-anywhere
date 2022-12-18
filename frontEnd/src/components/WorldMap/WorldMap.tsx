@@ -8,26 +8,20 @@ import Pin from './WorldMapPin';
 
 import { useGetLocationsQuery } from 'services/backend';
 import { Loading } from 'components/Loading/Loading';
+import { useDispatch } from 'react-redux';
+import { useActions } from 'hooks/useActions';
 
 const TOKEN =
   'pk.eyJ1Ijoiem94YWwiLCJhIjoiY2xicnI4Z25zMGptNjNvbnRqbmY1cHRvdyJ9.GHmqXKeWVadi-Bq0dEowCQ'; // Set your mapbox token here
-
-// interface popupInterface {
-//   city: string;
-//   population: string;
-//   image: string;
-//   state: string;
-//   latitude: number;
-//   longitude: number;
-// }
 
 interface GlobalMapInterface {
   setIsReviewsOpen: (value: boolean) => void;
 }
 
 export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
+  const { setLocationId } = useActions();
   // const [popupInfo, setPopupInfo] = useState<popupInterface | null>(null);
-  const { isLoading, data } = useGetLocationsQuery(); //update after creating review
+  const { data } = useGetLocationsQuery(); //update after creating review
 
   const pins = react.useMemo(
     () =>
@@ -41,6 +35,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
+            setLocationId(location.id);
             setIsReviewsOpen(true);
           }}
         >
@@ -52,8 +47,8 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
   return (
     <Map
       initialViewState={{
-        latitude: 40,
-        longitude: -100,
+        latitude: 53.893,
+        longitude: 27.567,
         zoom: 3.5,
         bearing: 0,
         pitch: 0,
@@ -65,7 +60,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
     >
       <GeolocateControl position="top-left" />
 
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       {pins}
 
       {/* {popupInfo && (
