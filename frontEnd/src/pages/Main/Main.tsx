@@ -42,7 +42,7 @@ export function Main() {
       </section>
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
       <ReviewSection />
-      <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Reviews'}>
+      <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Отзывы'}>
         <>
           {isSuccess && !isLoading ? (
             data?.map((item) => (

@@ -52,25 +52,42 @@ export function ReviewForm() {
   }, [isSuccess]);
 
   useEffect(() => {
-    if (createLocationResponse.isSuccess && reviewFormData)
+    if (createLocationResponse.status === 'pending') return;
+    if (createLocationResponse.isSuccess && reviewFormData) {
       createReview({
         userName: reviewFormData.name,
         locationId: createLocationResponse.data.locationId,
         rating: reviewFormData.rating,
         reviewText: reviewFormData.reviewText,
       });
+    } else if (!createLocationResponse.isSuccess && reviewFormData) {
+      fetch(
+        `//immigration-anywhere-be.up.railway.app/locations/location?locationName=${
+          data?.data[0].name || ''
+        }&countryId=${data?.data[0].country_code || ''}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          createReview({
+            userName: reviewFormData.name,
+            locationId: data.locationId,
+            rating: reviewFormData.rating,
+            reviewText: reviewFormData.reviewText,
+          });
+        });
+    }
   }, [createLocationResponse]);
 
   return (
     <>
       {createReviewResponse.isSuccess ? (
-        <h3>Отзыв создан успешно</h3>
+        <p className="success-text">Отзыв создан успешно</p>
       ) : isSuccess || isLoading ? (
         <Loading />
       ) : (
         <form
           className="sign-in-form"
-          style={{ maxWidth: '25rem', margin: '0 auto' }}
+          style={{ padding: '2rem', margin: '0 auto' }}
           onSubmit={handleSubmit(onSubmitHandler)}
         >
           <div className="form-group">
@@ -88,7 +105,7 @@ export function ReviewForm() {
                 },
               })}
               type="text"
-              placeholder={'Имя...'}
+              placeholder={'Юля...'}
               className="form-control"
               id="sign-in-form__name-input"
             />
@@ -111,6 +128,7 @@ export function ReviewForm() {
                 },
               })}
               type="text"
+              placeholder={'Варшава...'}
               className="form-control"
               id="sign-in-form__location-input"
             />
@@ -144,8 +162,8 @@ export function ReviewForm() {
                   message: 'Минимум 50 символов',
                 },
               })}
-              placeholder={'Отзыв...'}
-              className="form-control"
+              placeholder={'Опишите ваш опыт...'}
+              className="form-control sign-in-form__textarea"
               id="sign-in-form__review-input"
             />
           </div>
@@ -154,8 +172,8 @@ export function ReviewForm() {
           </div>
           <button
             type="submit"
-            style={{ width: '10rem', margin: '2.5rem auto', display: 'block' }}
-            className="btn btn-primary"
+            style={{ margin: '2.5rem auto', display: 'block' }}
+            className="btn btn-primary message__button"
             // disabled={!isValid}
           >
             {'Оставить отзыв'}

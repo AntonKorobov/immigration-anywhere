@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 10px;
 }
 
 .review__buttons {
@@ -10,4 +11,15 @@
 
 .review__button {
   margin-left: 1rem;
+}
+
+.review__user-name {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: bold;
+}
+
+.review__text {
+  font-size: 14px;
+  line-height: 1.8;
 }

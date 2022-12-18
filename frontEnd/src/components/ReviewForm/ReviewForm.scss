@@ -1,7 +1,40 @@
+.input-element {
+  width: 100%;
+}
+
 .input-element__select {
-  margin-left: 1rem;
+  display: block;
+  width: 100%;
+  margin-bottom: 2rem;
+  border: 1px solid #ced4da;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .error-message {
   font-size: 1.6rem;
+}
+
+.sign-in-form__textarea {
+  height: 15rem;
+}
+
+.form-control {
+  font-size: 16px;
+}
+
+.modal-title {
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.form-group label {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+
+.success-text {
+  text-align: center;
+  padding-right: 27px;
 }
