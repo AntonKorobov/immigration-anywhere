@@ -40,19 +40,17 @@ export function ReviewForm() {
   };
 
   useEffect(() => {
-    if (isSuccess && data.data.results.length) {
-      //if geolocation found
+    if (isSuccess) {
+      console.log(data);
       createLocation({
-        locationId: data.data.results[0].map_url || '', //hope it is unique
-        locationName: reviewFormData?.name || '',
-        countryId: data.data.results[0].country_code || '', //TODO show all results and chose
-        coordinates: {
-          latitude: data.data.results[0].latitude?.toString() || '',
-          longitude: data.data.results[0].longitude?.toString() || '',
-        },
+        // locationId: data.data[0].map_url || 'firstId', //hope it is unique
+        locationName: data.data[0].name || '',
+        countryId: data.data[0].country_code || '', //TODO show all results and chose
+        latitude: data.data[0].latitude?.toString() || '',
+        longitude: data.data[0].longitude?.toString() || '',
       });
     }
-  }, [reviewFormData]);
+  }, [isSuccess]);
 
   useEffect(() => {
     if (createLocationResponse.isSuccess && reviewFormData)

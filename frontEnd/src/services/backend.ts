@@ -14,7 +14,7 @@ const TOKEN_GEOLOCATION = '0a9c79faa8fbc7666193eeacc8c004a7';
 export const backend = createApi({
   reducerPath: 'backend',
   baseQuery: fetchBaseQuery({
-    baseUrl: '',
+    baseUrl: 'https://immigration-anywhere-be.up.railway.app/',
     // prepareHeaders: (headers) => {
     //   headers.set('Access-Control-Allow-Origin', '*');
     //   return headers;
@@ -25,7 +25,7 @@ export const backend = createApi({
   endpoints: (builder) => ({
     createLocation: builder.mutation<LocationPOSTResponse, LocationPOSTRequest>({
       query: (payload) => ({
-        url: `/location`,
+        url: `/locations`,
         method: 'POST',
         body: payload,
       }),
