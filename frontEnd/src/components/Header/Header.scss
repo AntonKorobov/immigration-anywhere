@@ -1,0 +1,15 @@
+@import '../../styles/colors.module';
+
+.header {
+  background-color: $mainColor;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title__h1 {
+  display: inline-block;
+  margin: 0;
+}
