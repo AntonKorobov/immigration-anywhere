@@ -6,6 +6,7 @@ import './Main.scss';
 import { ReviewSection } from 'components/ReviewSection/ReviewSection';
 import { ReviewPropsInterface } from 'types/reviewTypes';
 import { Review } from 'components/Review/Review';
+import WorldMap from 'components/WorldMap/WorldMap';
 
 export function Main() {
   const [isReviewsOpen, setIsReviewsOpen] = useState(false);
@@ -23,15 +24,14 @@ export function Main() {
   };
 
   return (
-    <div className="container">
-      <div className="map">
-        <button onClick={() => setIsReviewsOpen(true)}>Open reviews</button>
-      </div>
+    <div className="main-container">
+      <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
+      {/* <button onClick={() => setIsReviewsOpen(true)}>Open reviews</button> */}
       <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Reviews'}>
         <>
-          {Array.from(Array(5)).map((item) => (
+          {Array.from(Array(5)).map((item, index) => (
             <Review
-              key={reviewExapmle.id + item}
+              key={reviewExapmle.id + index}
               id={reviewExapmle.id}
               userName={reviewExapmle.userName}
               rating={reviewExapmle.rating}

@@ -9,9 +9,9 @@ export function Review({ userName, reviewText, rating }: ReviewPropsInterface) {
       <div className="review__info-wrapper">
         <h3 className="h3 review__user-name">{userName}</h3>
         <div className="review__rating-wrapper">
-          {Array.from(Array(rating)).map((item) => (
+          {Array.from(Array(rating)).map((item, index) => (
             <img
-              key={item}
+              key={'rating' + index}
               className="review__star"
               src="./assets/HandDrawnStar.png"
               alt="звезда рейтинга"
