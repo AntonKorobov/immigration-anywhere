@@ -15,6 +15,7 @@
   padding: 100px 0 50px;
   text-align: center;
   color: $lightMainTextColor;
+  overflow: hidden;
 }
 .top__header {
   font-weight: $fwBold;
@@ -29,7 +30,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-40%);
-  width: 900px;
+  width: 800px;
   height: 100%;
 }
 .top__plane-container .vector_down {
