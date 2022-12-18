@@ -1,5 +1,8 @@
+@import '../../styles/colors.module';
+
 .main-container {
   width: 100%;
+  color: $mainTextColor;
 }
 
 .map {
