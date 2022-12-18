@@ -6,7 +6,8 @@ import './WorldMap.scss';
 
 import Pin from './WorldMapPin';
 
-import CITIES from '../../store/cities.json';
+import { useGetLocationsQuery } from 'services/backend';
+import { Loading } from 'components/Loading/Loading';
 
 const TOKEN =
   'pk.eyJ1Ijoiem94YWwiLCJhIjoiY2xicnI4Z25zMGptNjNvbnRqbmY1cHRvdyJ9.GHmqXKeWVadi-Bq0dEowCQ'; // Set your mapbox token here
@@ -24,16 +25,17 @@ interface GlobalMapInterface {
   setIsReviewsOpen: (value: boolean) => void;
 }
 
-export default function GlobalMap({ setIsReviewsOpen }: GlobalMapInterface) {
+export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
   // const [popupInfo, setPopupInfo] = useState<popupInterface | null>(null);
+  const { isLoading, data } = useGetLocationsQuery(); //update after creating review
 
   const pins = react.useMemo(
     () =>
-      CITIES.map((location, index) => (
+      data?.map((location) => (
         <Marker
-          key={`marker-${index}`}
-          longitude={location.longitude}
-          latitude={location.latitude}
+          key={location.id}
+          longitude={Number(location.coordinates.longitude)}
+          latitude={Number(location.coordinates.latitude)}
           anchor="bottom"
           onClick={(e) => {
             // If we let the click event propagates to the map, it will immediately close the popup
@@ -63,6 +65,7 @@ export default function GlobalMap({ setIsReviewsOpen }: GlobalMapInterface) {
     >
       <GeolocateControl position="top-left" />
 
+      {isLoading && <Loading />}
       {pins}
 
       {/* {popupInfo && (
