@@ -27,4 +27,24 @@ export class LocationsService {
       })
       .exec();
   }
+
+  async getByLocationName(name: string): Promise<Location | null> {
+    return this.locationModel
+      .findOne({
+        locationName: name,
+      })
+      .exec();
+  }
+
+  async getByLocationNameAndCountryId(
+    locationName: string,
+    countryId: string,
+  ): Promise<Location | null> {
+    return this.locationModel
+      .findOne({
+        locationName,
+        countryId,
+      })
+      .exec();
+  }
 }

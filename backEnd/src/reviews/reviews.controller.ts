@@ -12,6 +12,7 @@ import { LocationsService } from './../locations/services/locations.service';
 import { ReviewDto } from './dto/review.dto';
 import { Param } from '@nestjs/common/decorators';
 import { ReviewResponse } from './interfaces/review.models';
+import { Review } from './schemas/review.schema';
 
 @Controller('reviews')
 export class ReviewsController {
@@ -21,28 +22,17 @@ export class ReviewsController {
   ) {}
 
   @Post()
-  async create(@Body() userReview: UserReviewDto): Promise<void> {
-    const existLocation = await this.locationsService.getByLocationId(
-      userReview.locationId,
-    );
-    console.log(existLocation);
-
-    if (existLocation) {
-      await this.reviewsService.create(this.createReviewDto(userReview));
-      return;
-    } else {
-      await this.locationsService.create({
-        locationId: userReview.locationId,
-        latitude: userReview.coordinates.latitude,
-        longitude: userReview.coordinates.longitude,
-        locationName: userReview.locationName,
-        countryId: userReview.countryId,
-      });
-      await this.reviewsService.create(this.createReviewDto(userReview));
-      return;
-    }
-
-    // return userReview;
+  async create(@Body() review: ReviewDto): Promise<Review & { id: string }> {
+    const createdReview = (await this.reviewsService.create(
+      review,
+    )) as Review & { _id: string };
+    return {
+      id: createdReview._id,
+      locationId: createdReview.locationId,
+      rating: createdReview.rating,
+      reviewText: createdReview.reviewText,
+      userName: createdReview.userName,
+    };
   }
 
   @Get(':id')
@@ -53,11 +43,9 @@ export class ReviewsController {
 
     if (existLocation) {
       const reviews = await this.reviewsService.getReviewsByLocationId(id);
-      return reviews.map((review) => ({
+      return reviews.map((review: Review & { _id: string }) => ({
         id: review._id,
         userName: review.userName,
-        country: existLocation.locationName,
-        locationId: existLocation.locationId,
         rating: review.rating,
         reviewText: review.reviewText,
       }));
