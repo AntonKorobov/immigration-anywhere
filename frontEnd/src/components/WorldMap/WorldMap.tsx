@@ -45,25 +45,26 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
     [data]
   );
   return (
-    <Map
-      initialViewState={{
-        latitude: 53.893,
-        longitude: 27.567,
-        zoom: 3.5,
-        bearing: 0,
-        pitch: 0,
-        // projection: 'globe', //doesn't work
-      }}
-      style={{ width: '100%', height: 400 }}
-      mapStyle="mapbox://styles/mapbox/light-v11"
-      mapboxAccessToken={TOKEN}
-    >
-      <GeolocateControl position="top-left" />
+    <div className="world-map">
+      <Map
+        initialViewState={{
+          latitude: 53.893,
+          longitude: 27.567,
+          zoom: 3.5,
+          bearing: 0,
+          pitch: 0,
+          // projection: 'globe', //doesn't work
+        }}
+        style={{ width: '100%', height: '100%' }}
+        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapboxAccessToken={TOKEN}
+      >
+        <GeolocateControl position="top-left" />
 
-      {/* {isLoading && <Loading />} */}
-      {pins}
+        {/* {isLoading && <Loading />} */}
+        {pins}
 
-      {/* {popupInfo && (
+        {/* {popupInfo && (
         <Popup
           anchor="top"
           longitude={Number(popupInfo.longitude)}
@@ -74,6 +75,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
           <img width="100%" src={popupInfo.image} />
         </Popup>
       )} */}
-    </Map>
+      </Map>
+    </div>
   );
 }

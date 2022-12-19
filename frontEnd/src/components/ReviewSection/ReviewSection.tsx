@@ -24,10 +24,6 @@ export function ReviewSection() {
         >
           Рассказать
         </button>
-        <div className="message__plane-container">
-          <img className="vector_up" src="assets/vector_up.png" />
-          <img className="plane_up" src="assets/plane_up.png" />
-        </div>
       </section>
       <ModalWindow
         show={isReviewFormOpen}

@@ -30,10 +30,6 @@ export function Main() {
   return (
     <div className="main-container">
       <section className="section-top">
-        <div className="top__plane-container">
-          <img className="vector_down" src="assets/vector_down.png" />
-          <img className="plane_down" src="assets/plane_down.png" />
-        </div>
         <div className="top__header">
           Большое количество белорусов сейчас живут в<br />
           различных странах мира.
