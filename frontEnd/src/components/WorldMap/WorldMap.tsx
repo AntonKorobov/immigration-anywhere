@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import react from 'react';
 import Map, { Marker, Popup, GeolocateControl } from 'react-map-gl';
 
@@ -7,8 +7,6 @@ import './WorldMap.scss';
 import Pin from './WorldMapPin';
 
 import { useGetLocationsQuery } from 'services/backend';
-import { Loading } from 'components/Loading/Loading';
-import { useDispatch } from 'react-redux';
 import { useActions } from 'hooks/useActions';
 
 const TOKEN =
@@ -21,7 +19,7 @@ interface GlobalMapInterface {
 export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
   const { setLocationId } = useActions();
   // const [popupInfo, setPopupInfo] = useState<popupInterface | null>(null);
-  const { data } = useGetLocationsQuery(); //update after creating review
+  const { data } = useGetLocationsQuery();
 
   const pins = react.useMemo(
     () =>
@@ -32,8 +30,6 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
           latitude={Number(location.coordinates.latitude)}
           anchor="bottom"
           onClick={(e) => {
-            // If we let the click event propagates to the map, it will immediately close the popup
-            // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
             setLocationId(location.id);
             setIsReviewsOpen(true);
@@ -61,7 +57,6 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
       >
         <GeolocateControl position="top-left" />
 
-        {/* {isLoading && <Loading />} */}
         {pins}
 
         {/* {popupInfo && (

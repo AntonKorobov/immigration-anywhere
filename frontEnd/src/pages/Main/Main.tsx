@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
 
@@ -17,7 +17,6 @@ export function Main() {
   const { setLocationId } = useActions();
 
   const [isReviewsOpen, setIsReviewsOpen] = useState(false);
-
   const { data, isSuccess, isError, isLoading } = useGetReviewsQuery(locationId || '', {
     skip: !locationId, //!!!
   });
@@ -40,8 +39,8 @@ export function Main() {
       <ReviewSection />
       <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Отзывы'}>
         <>
-          {isSuccess && !isLoading ? (
-            data?.map((item) => (
+          {isSuccess &&
+            data.map((item) => (
               <Review
                 key={item.id}
                 id={item.id}
@@ -49,11 +48,9 @@ export function Main() {
                 rating={Number(item.rating)}
                 reviewText={item.reviewText}
               />
-            ))
-          ) : (
-            <Loading />
-          )}
-          {data?.length === 0 && <h2>Нет отзывов</h2>}
+            ))}
+          {isLoading && <Loading />}
+          {isError && <p>Не получилось загрузить отзывы. Попробуйте еще раз</p>}
         </>
       </ModalWindow>
     </div>
