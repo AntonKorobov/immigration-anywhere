@@ -49,11 +49,12 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
           zoom: 2,
           bearing: 0,
           pitch: 0,
-          // projection: 'globe', //doesn't work
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapStyle="mapbox://styles/newanton/clbwa240n008014o9alqq0tt7"
+        // mapStyle="mapbox://styles/mapbox/light-v11"
         mapboxAccessToken={TOKEN}
+        projection={'globe'}
       >
         <GeolocateControl position="top-left" />
 
