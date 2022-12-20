@@ -20,9 +20,9 @@ export function Review({ userName, reviewText, rating }: ReviewPropsInterface) {
         </div>
       </div>
       <p className="review__text">{reviewText}</p>
-      {/* <div className="review__buttons">
-        <button className="button review__button">Ответить</button>
-        <button className="button review__button">Показать ответы</button>
+      {/* <div className="chat-buttons-wrapper">
+        <button className="button chat__button">Ответить</button>
+        <button className="button chat__button">Показать ответы</button>
       </div> */}
     </div>
   );

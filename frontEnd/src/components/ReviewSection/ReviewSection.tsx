@@ -19,7 +19,7 @@ export function ReviewSection() {
       <section className="section-message">
         <div className="message__header">Расскажите нам про жизнь в вашей текущей локации!</div>
         <button
-          className="message__button btn btn-primary"
+          className="review__button btn btn-primary"
           onClick={() => setIsReviewFormOpen(true)}
         >
           Рассказать

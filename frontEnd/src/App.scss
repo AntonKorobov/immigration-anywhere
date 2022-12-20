@@ -1,8 +1,10 @@
+@import './styles/fonts.module';
+
 .container {
   padding: 2rem;
 }
 
-.review__button {
+.chat__button {
   background-color: #fbda12;
   border-radius: 10px;
   border: none;
@@ -10,4 +12,12 @@
   color: white;
   font-weight: 600;
   font-size: 14px;
+}
+
+.review__button {
+  display: block;
+  font-weight: $fwSemiBold;
+  font-size: 1.3rem;
+  margin: 20px auto 0;
+  padding: 10px 30px;
 }

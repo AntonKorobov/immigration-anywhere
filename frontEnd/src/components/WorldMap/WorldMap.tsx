@@ -54,7 +54,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
         mapStyle="mapbox://styles/newanton/clbwa240n008014o9alqq0tt7"
         // mapStyle="mapbox://styles/mapbox/light-v11"
         mapboxAccessToken={TOKEN}
-        projection={'globe'}
+        // projection={'globe'}
       >
         <GeolocateControl position="top-left" />
 
