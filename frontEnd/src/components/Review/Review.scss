@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .chat-buttons-wrapper {
@@ -10,12 +10,12 @@
 }
 
 .review__user-name {
-  font-size: 16px;
-  line-height: 18px;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
   font-weight: bold;
 }
 
 .review__text {
-  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 1.8;
 }

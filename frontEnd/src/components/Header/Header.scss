@@ -1,5 +1,4 @@
 @import '../../styles/colors.module';
-@import '../../styles/fonts.module';
 
 .header {
   background-color: $backgroundColor;
@@ -12,9 +11,9 @@
   .title__h1 {
     display: inline-block;
     margin: 0;
-    font-weight: $fwBold;
+    font-weight: 700;
     font-size: 2rem;
-    letter-spacing: 1px;
+    letter-spacing: 0.1rem;
     transition: transform 0.3s;
   }
 

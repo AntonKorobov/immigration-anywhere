@@ -9,12 +9,13 @@ import {
   GeolocationResponse,
 } from 'types/queryTypes';
 
+const BASE_URL = 'https://immigration-anywhere-be.up.railway.app/';
 const TOKEN_GEOLOCATION = '0a9c79faa8fbc7666193eeacc8c004a7';
 
 export const backend = createApi({
   reducerPath: 'backend',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://immigration-anywhere-be.up.railway.app/',
+    baseUrl: BASE_URL,
     mode: 'cors',
   }),
   tagTypes: ['MarkerTag'],
@@ -51,7 +52,7 @@ export const backend = createApi({
     }),
     getGeolocation: builder.query<GeolocationResponse, string>({
       query: (payload) => ({
-        url: `https://immigration-anywhere-be.up.railway.app/google-maps-api`,
+        url: `https://immigration-anywhere-be.up.railway.app/google-maps-api`, //TODO https requests
         method: 'GET',
         params: { access_key: TOKEN_GEOLOCATION, query: payload },
       }),

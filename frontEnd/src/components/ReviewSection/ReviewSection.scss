@@ -1,24 +1,23 @@
-@import '../../styles/fonts.module';
 @import '../../styles/colors.module';
 
-.section-message {
+.review-section {
   position: relative;
-  padding-bottom: 150px;
-  margin-bottom: 30px;
+  padding-bottom: 15rem;
+  margin-bottom: 3rem;
   background: url('../../../public/assets/plane_down_all.png') no-repeat center;
   background-size: contain;
   background-position: right 60% bottom 50%;
 }
 
-.message__header {
-  margin-top: 20px;
-  font-weight: $fwNormal;
+.review-section__message {
+  margin-top: 2rem;
+  font-weight: 400;
   color: $lightMainTextColor;
   text-align: center;
 }
 
 @media (min-width: 480px) {
-  .message__header {
-    margin-top: 40px;
+  .review-section__message {
+    margin-top: 4rem;
   }
 }

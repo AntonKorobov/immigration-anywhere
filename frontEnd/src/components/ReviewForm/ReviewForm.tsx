@@ -1,7 +1,7 @@
-import { Loading } from 'components/Loading/Loading';
 import React, { useEffect, useState } from 'react';
-
 import { useForm, SubmitHandler } from 'react-hook-form';
+
+import { Loading } from 'components/Loading/Loading';
 import {
   useCreateLocationMutation,
   useCreateReviewMutation,
@@ -34,7 +34,7 @@ export function ReviewForm() {
   } = useForm<ReviewFormInterface>();
 
   const onSubmitHandler: SubmitHandler<ReviewFormInterface> = (formData) => {
-    setReviewFormData(formData); //Ok?
+    setReviewFormData(formData);
   };
 
   useEffect(() => {
@@ -82,11 +82,7 @@ export function ReviewForm() {
       ) : isSuccess || isLoading ? (
         <Loading />
       ) : (
-        <form
-          className="review-form"
-          style={{ padding: '2rem', margin: '0 auto' }}
-          onSubmit={handleSubmit(onSubmitHandler)}
-        >
+        <form className="review-form" onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="form-group">
             <label htmlFor="review-form__name-input">{'Имя'}</label>
             <input
@@ -107,8 +103,8 @@ export function ReviewForm() {
               id="review-form__name-input"
             />
           </div>
-          <div style={{ height: '2rem', color: 'red' }}>
-            {errors?.name && <p className="error-message">{errors?.name?.message}</p>}
+          <div className="error-message">
+            {errors?.name && <p className="error-message__text">{errors?.name?.message}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="review-form__location-input">{'Расположение'}</label>
@@ -130,8 +126,8 @@ export function ReviewForm() {
               id="review-form__location-input"
             />
           </div>
-          <div style={{ height: '2rem', color: 'red' }}>
-            {errors?.location && <p className="error-message">{errors?.location?.message}</p>}
+          <div className="error-message">
+            {errors?.location && <p className="error-message_text">{errors?.location?.message}</p>}
           </div>
           <div className="form-group">
             <label className="input-element">
@@ -164,12 +160,13 @@ export function ReviewForm() {
               id="review-form__review-input"
             />
           </div>
-          <div style={{ height: '1rem', color: 'red' }}>
-            {errors?.reviewText && <p className="error-message">{errors?.reviewText?.message}</p>}
+          <div className="error-message">
+            {errors?.reviewText && (
+              <p className="error-message__text">{errors?.reviewText?.message}</p>
+            )}
           </div>
           <button
             type="submit"
-            style={{ margin: '2.5rem auto', display: 'block' }}
             className="btn btn-primary review__button"
             // disabled={!isValid}
           >
