@@ -9,7 +9,7 @@ export function Header() {
         <a href="#" className="title link">
           <img className="title__img" src="assets/logo 1.png" alt="logo" />
           <h1 className="title__h1 h1">
-            EMIGRATION <br />
+            IMMIGRATION <br />
             <span className="highlight">ANYWHERE</span>
           </h1>
         </a>

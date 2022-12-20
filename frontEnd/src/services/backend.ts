@@ -47,6 +47,7 @@ export const backend = createApi({
         url: `/reviews/${payload}`,
         method: 'GET',
       }),
+      providesTags: ['MarkerTag'],
     }),
     getGeolocation: builder.query<GeolocationResponse, string>({
       query: (payload) => ({

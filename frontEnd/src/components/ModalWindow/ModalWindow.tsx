@@ -1,4 +1,5 @@
-import React from 'react';
+import { useActions } from 'hooks/useActions';
+import React, { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import './ModalWindow.scss';
