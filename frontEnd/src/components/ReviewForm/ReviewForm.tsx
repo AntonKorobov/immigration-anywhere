@@ -158,8 +158,8 @@ export function ReviewForm() {
                   message: 'Максимум 2000 символов',
                 },
                 minLength: {
-                  value: 50,
-                  message: 'Минимум 50 символов',
+                  value: 10,
+                  message: 'Минимум 10 символов',
                 },
               })}
               placeholder={'Опишите ваш опыт...'}

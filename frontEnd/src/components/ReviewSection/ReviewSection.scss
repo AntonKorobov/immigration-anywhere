@@ -4,6 +4,7 @@
 .section-message {
   position: relative;
   padding-bottom: 150px;
+  margin-bottom: 30px;
   background: url('../../../public/assets/plane_down_all.png') no-repeat center;
   background-size: contain;
   background-position: right 60% bottom 50%;
@@ -11,7 +12,6 @@
 
 .message__header {
   margin-top: 20px;
-  // margin-top: 40px;
   font-weight: $fwNormal;
   color: $lightMainTextColor;
   text-align: center;

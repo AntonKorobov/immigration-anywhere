@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
 
@@ -23,7 +23,9 @@ export function Main() {
 
   const handleCloseReviews = () => {
     setIsReviewsOpen(false);
-    setLocationId('');
+    setTimeout(() => {
+      setLocationId(''); // !!! Because animation delay closing. And window cleaning faster than close
+    }, 200);
   };
 
   return (

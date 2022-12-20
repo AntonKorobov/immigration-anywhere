@@ -10,7 +10,7 @@ import { useGetLocationsQuery } from 'services/backend';
 import { useActions } from 'hooks/useActions';
 
 const TOKEN =
-  'pk.eyJ1Ijoiem94YWwiLCJhIjoiY2xicnI4Z25zMGptNjNvbnRqbmY1cHRvdyJ9.GHmqXKeWVadi-Bq0dEowCQ'; // Set your mapbox token here
+  'pk.eyJ1IjoibmV3YW50b24iLCJhIjoiY2xidnl2OHlrMHJ2eTN3bXNteGN6a2MyYSJ9.stAVYrO5EP2Xu89LUrgUHA';
 
 interface GlobalMapInterface {
   setIsReviewsOpen: (value: boolean) => void;
@@ -46,7 +46,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
         initialViewState={{
           latitude: 53.893,
           longitude: 27.567,
-          zoom: 3.5,
+          zoom: 2,
           bearing: 0,
           pitch: 0,
           // projection: 'globe', //doesn't work
