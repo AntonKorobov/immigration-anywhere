@@ -1,0 +1,33 @@
+@import '../../styles/colors.module';
+
+.header {
+  background-color: $backgroundColor;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+
+  .title__h1 {
+    display: inline-block;
+    margin: 0;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.1rem;
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    text-decoration: none;
+    .title__h1 {
+      text-decoration: none;
+      color: white;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.h1_highlight {
+  color: $highlightColor;
+  transition: 0.3s;
+}

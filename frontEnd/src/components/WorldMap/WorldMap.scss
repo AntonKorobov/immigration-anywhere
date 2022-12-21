@@ -1,0 +1,18 @@
+.world-map {
+  height: 100vw;
+}
+
+@media (min-width: 768px) {
+  .world-map {
+    height: 40vw;
+  }
+}
+
+.world-map-marker {
+  cursor: pointer;
+  fill: #d00000;
+}
+
+.mapboxgl-control-container {
+  display: none;
+}

@@ -1,0 +1,47 @@
+.review-form {
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.error-message {
+  height: 2rem;
+  color: red;
+  font-size: 1.6rem;
+}
+
+.success-text {
+  text-align: center;
+  padding-right: 2.7rem;
+}
+
+.input-element {
+  width: 100%;
+}
+
+.input-element__select {
+  display: block;
+  width: 100%;
+  margin-bottom: 2rem;
+  border: 1px solid #ced4da;
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+
+.review-form__textarea {
+  height: 15rem;
+}
+
+.form-control {
+  font-size: 1.6rem;
+}
+
+.modal-title {
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.form-group label {
+  font-size: 1.9rem;
+  margin-bottom: 0.5rem;
+}
