@@ -1,9 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ModalWindow } from 'components/ModalWindow/ModalWindow';
-
-import './Main.scss';
-
 import { ReviewSection } from 'components/ReviewSection/ReviewSection';
 import { Review } from 'components/Review/Review';
 import { WorldMap } from 'components/WorldMap/WorldMap';
@@ -12,30 +9,32 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import { Loading } from 'components/Loading/Loading';
 import { useActions } from 'hooks/useActions';
 
+import './Main.scss';
+
 export function Main() {
   const { locationId } = useTypedSelector((state) => state.globalState);
   const { setLocationId } = useActions();
 
   const [isReviewsOpen, setIsReviewsOpen] = useState(false);
   const { data, isSuccess, isError, isLoading } = useGetReviewsQuery(locationId || '', {
-    skip: !locationId, //!!!
+    skip: !locationId,
   });
 
   const handleCloseReviews = () => {
     setIsReviewsOpen(false);
     setTimeout(() => {
-      setLocationId(''); // !!! Because animation delay closing. And window cleaning faster than close
+      setLocationId(''); // !!! Because animation delay. Window cleaning faster than closing
     }, 200);
   };
 
   return (
     <div className="main-container">
-      <section className="section-top">
-        <div className="top__header">
+      <section className="info-section">
+        <p className="info-section__text">
           Большое количество белорусов сейчас живут в<br />
           различных странах мира.
-        </div>
-        <div className="top__subheader">Вот что они говорят:</div>
+        </p>
+        <p className="info-section__small-text">Вот что они говорят:</p>
       </section>
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
       <ReviewSection />

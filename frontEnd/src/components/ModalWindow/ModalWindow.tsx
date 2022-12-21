@@ -1,5 +1,4 @@
-import { useActions } from 'hooks/useActions';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import './ModalWindow.scss';
@@ -18,7 +17,7 @@ export function ModalWindow(props: ModalWindowInterface) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       scrollable
-      className="modal__window"
+      className="modal-window"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">{props.title}</Modal.Title>

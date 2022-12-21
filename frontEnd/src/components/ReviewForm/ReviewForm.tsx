@@ -1,7 +1,7 @@
-import { Loading } from 'components/Loading/Loading';
 import React, { useEffect, useState } from 'react';
-
 import { useForm, SubmitHandler } from 'react-hook-form';
+
+import { Loading } from 'components/Loading/Loading';
 import {
   useCreateLocationMutation,
   useCreateReviewMutation,
@@ -20,12 +20,9 @@ interface ReviewFormInterface {
 export function ReviewForm() {
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
 
-  const { data, isSuccess, isError, isLoading, isUninitialized } = useGetGeolocationQuery(
-    reviewFormData?.location || '',
-    {
-      skip: Boolean(!reviewFormData?.location),
-    }
-  );
+  const { data, isSuccess, isLoading } = useGetGeolocationQuery(reviewFormData?.location || '', {
+    skip: Boolean(!reviewFormData?.location),
+  });
 
   const [createLocation, createLocationResponse] = useCreateLocationMutation();
   const [createReview, createReviewResponse] = useCreateReviewMutation();
@@ -33,11 +30,11 @@ export function ReviewForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<ReviewFormInterface>();
 
   const onSubmitHandler: SubmitHandler<ReviewFormInterface> = (formData) => {
-    setReviewFormData(formData); //Ok?
+    setReviewFormData(formData);
   };
 
   useEffect(() => {
@@ -85,13 +82,9 @@ export function ReviewForm() {
       ) : isSuccess || isLoading ? (
         <Loading />
       ) : (
-        <form
-          className="sign-in-form"
-          style={{ padding: '2rem', margin: '0 auto' }}
-          onSubmit={handleSubmit(onSubmitHandler)}
-        >
+        <form className="review-form" onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="form-group">
-            <label htmlFor="sign-in-form__name-input">{'Имя'}</label>
+            <label htmlFor="review-form__name-input">{'Имя'}</label>
             <input
               {...register('name', {
                 required: 'Обязательное поле',
@@ -107,14 +100,14 @@ export function ReviewForm() {
               type="text"
               placeholder={'Юля...'}
               className="form-control"
-              id="sign-in-form__name-input"
+              id="review-form__name-input"
             />
           </div>
-          <div style={{ height: '2rem', color: 'red' }}>
-            {errors?.name && <p className="error-message">{errors?.name?.message}</p>}
+          <div className="error-message">
+            {errors?.name && <p className="error-message__text">{errors?.name?.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="sign-in-form__location-input">{'Расположение'}</label>
+            <label htmlFor="review-form__location-input">{'Расположение'}</label>
             <input
               {...register('location', {
                 required: 'Обязательное поле',
@@ -130,11 +123,11 @@ export function ReviewForm() {
               type="text"
               placeholder={'Варшава...'}
               className="form-control"
-              id="sign-in-form__location-input"
+              id="review-form__location-input"
             />
           </div>
-          <div style={{ height: '2rem', color: 'red' }}>
-            {errors?.location && <p className="error-message">{errors?.location?.message}</p>}
+          <div className="error-message">
+            {errors?.location && <p className="error-message_text">{errors?.location?.message}</p>}
           </div>
           <div className="form-group">
             <label className="input-element">
@@ -149,7 +142,7 @@ export function ReviewForm() {
             </label>
           </div>
           <div className="form-group">
-            <label htmlFor="sign-in-form__review-input">{'Отзыв'}</label>
+            <label htmlFor="review-form__review-input">{'Отзыв'}</label>
             <textarea
               {...register('reviewText', {
                 required: 'Обязательное поле',
@@ -163,17 +156,18 @@ export function ReviewForm() {
                 },
               })}
               placeholder={'Опишите ваш опыт...'}
-              className="form-control sign-in-form__textarea"
-              id="sign-in-form__review-input"
+              className="form-control review-form__textarea"
+              id="review-form__review-input"
             />
           </div>
-          <div style={{ height: '1rem', color: 'red' }}>
-            {errors?.reviewText && <p className="error-message">{errors?.reviewText?.message}</p>}
+          <div className="error-message">
+            {errors?.reviewText && (
+              <p className="error-message__text">{errors?.reviewText?.message}</p>
+            )}
           </div>
           <button
             type="submit"
-            style={{ margin: '2.5rem auto', display: 'block' }}
-            className="btn btn-primary message__button"
+            className="btn btn-primary review__button"
             // disabled={!isValid}
           >
             {'Оставить отзыв'}
