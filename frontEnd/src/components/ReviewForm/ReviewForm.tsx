@@ -3,10 +3,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { Loading } from 'components/Loading/Loading';
 import {
-  useCreateLocationMutation,
+  // useCreateLocationMutation,
   useCreateReviewMutation,
-  useGetGeolocationIdQuery,
-  useGetGeolocationQuery,
+  // useGetGeolocationIdQuery,
+  // useGetGeolocationQuery,
 } from 'services/backend';
 
 import './ReviewForm.scss';

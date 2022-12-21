@@ -27,6 +27,8 @@ export interface ReviewsPOSTRequest {
   locationId: string;
   rating: string;
   reviewText: string;
+  locationName: string;
+  countryId: string;
 }
 
 export interface ReviewsPOSTResponse {
