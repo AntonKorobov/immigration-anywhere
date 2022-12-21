@@ -57,6 +57,16 @@ export const backend = createApi({
         params: { access_key: TOKEN_GEOLOCATION, query: payload },
       }),
     }),
+    getGeolocationId: builder.query<
+      { locationId: string },
+      { locationName: string; countryId: string }
+    >({
+      query: (payload) => ({
+        url: `https://immigration-anywhere-be.up.railway.app/locations/location`, //TODO https requests
+        method: 'GET',
+        params: { locationName: payload.locationName, countryId: payload.countryId },
+      }),
+    }),
   }),
 });
 
@@ -66,4 +76,5 @@ export const {
   useCreateReviewMutation,
   useGetReviewsQuery,
   useGetGeolocationQuery,
+  useGetGeolocationIdQuery,
 } = backend;

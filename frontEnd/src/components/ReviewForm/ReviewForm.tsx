@@ -5,6 +5,7 @@ import { Loading } from 'components/Loading/Loading';
 import {
   useCreateLocationMutation,
   useCreateReviewMutation,
+  useGetGeolocationIdQuery,
   useGetGeolocationQuery,
 } from 'services/backend';
 
@@ -20,11 +21,19 @@ interface ReviewFormInterface {
 export function ReviewForm() {
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
 
-  const { data, isSuccess, isLoading } = useGetGeolocationQuery(reviewFormData?.location || '', {
+  const getGeolocationResponse = useGetGeolocationQuery(reviewFormData?.location || '', {
     skip: Boolean(!reviewFormData?.location),
   });
-
   const [createLocation, createLocationResponse] = useCreateLocationMutation();
+  const getGeolocationIdResponse = useGetGeolocationIdQuery(
+    {
+      locationName: getGeolocationResponse.data?.data[0].name || '',
+      countryId: getGeolocationResponse.data?.data[0].country_code || '',
+    },
+    {
+      skip: Boolean(!createLocationResponse.isError),
+    }
+  );
   const [createReview, createReviewResponse] = useCreateReviewMutation();
 
   const {
@@ -38,18 +47,19 @@ export function ReviewForm() {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (getGeolocationResponse.isFetching) return; //!!!
+    if (getGeolocationResponse.isSuccess) {
       createLocation({
-        locationName: data.data[0].name || '',
-        countryId: data.data[0].country_code || '', //TODO show all results and chose
-        latitude: data.data[0].latitude?.toString() || '',
-        longitude: data.data[0].longitude?.toString() || '',
+        locationName: getGeolocationResponse.data.data[0].name || '',
+        countryId: getGeolocationResponse.data.data[0].country_code || '', //TODO show all results and chose
+        latitude: getGeolocationResponse.data.data[0].latitude?.toString() || '',
+        longitude: getGeolocationResponse.data.data[0].longitude?.toString() || '',
       });
     }
-  }, [isSuccess]);
+  }, [getGeolocationResponse.isSuccess]);
 
   useEffect(() => {
-    if (createLocationResponse.status === 'pending') return;
+    if (createLocationResponse.isLoading) return;
     if (createLocationResponse.isSuccess && reviewFormData) {
       createReview({
         userName: reviewFormData.name,
@@ -57,29 +67,26 @@ export function ReviewForm() {
         rating: reviewFormData.rating,
         reviewText: reviewFormData.reviewText,
       });
-    } else if (!createLocationResponse.isSuccess && reviewFormData) {
-      fetch(
-        `//immigration-anywhere-be.up.railway.app/locations/location?locationName=${
-          data?.data[0].name || ''
-        }&countryId=${data?.data[0].country_code || ''}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          createReview({
-            userName: reviewFormData.name,
-            locationId: data.locationId,
-            rating: reviewFormData.rating,
-            reviewText: reviewFormData.reviewText,
-          });
-        });
     }
-  }, [createLocationResponse]);
+  }, [createLocationResponse.isSuccess]);
+
+  useEffect(() => {
+    if (getGeolocationIdResponse.isLoading) return;
+    if (getGeolocationIdResponse.isSuccess && reviewFormData && getGeolocationIdResponse.data) {
+      createReview({
+        userName: reviewFormData.name,
+        locationId: getGeolocationIdResponse.data.locationId,
+        rating: reviewFormData.rating,
+        reviewText: reviewFormData.reviewText,
+      });
+    }
+  }, [getGeolocationIdResponse.isSuccess]);
 
   return (
     <>
       {createReviewResponse.isSuccess ? (
         <p className="success-text">Отзыв создан успешно</p>
-      ) : isSuccess || isLoading ? (
+      ) : getGeolocationResponse.isSuccess || getGeolocationResponse.isLoading ? (
         <Loading />
       ) : (
         <form className="review-form" onSubmit={handleSubmit(onSubmitHandler)}>
