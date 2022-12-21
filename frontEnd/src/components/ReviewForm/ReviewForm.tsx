@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { Loading } from 'components/Loading/Loading';
-import {
-  // useCreateLocationMutation,
-  useCreateReviewMutation,
-  // useGetGeolocationIdQuery,
-  // useGetGeolocationQuery,
-} from 'services/backend';
+import { useCreateReviewMutation, useGetGeolocationQuery } from 'services/backend';
 
 import './ReviewForm.scss';
 
@@ -24,16 +19,7 @@ export function ReviewForm() {
   const getGeolocationResponse = useGetGeolocationQuery(reviewFormData?.location || '', {
     skip: Boolean(!reviewFormData?.location),
   });
-  const [createLocation, createLocationResponse] = useCreateLocationMutation();
-  const getGeolocationIdResponse = useGetGeolocationIdQuery(
-    {
-      locationName: getGeolocationResponse.data?.data[0].name || '',
-      countryId: getGeolocationResponse.data?.data[0].country_code || '',
-    },
-    {
-      skip: Boolean(!createLocationResponse.isError),
-    }
-  );
+
   const [createReview, createReviewResponse] = useCreateReviewMutation();
 
   const {
@@ -47,40 +33,18 @@ export function ReviewForm() {
   };
 
   useEffect(() => {
-    if (getGeolocationResponse.isFetching) return; //!!!
-    if (getGeolocationResponse.isSuccess) {
-      createLocation({
-        locationName: getGeolocationResponse.data.data[0].name || '',
-        countryId: getGeolocationResponse.data.data[0].country_code || '', //TODO show all results and chose
-        latitude: getGeolocationResponse.data.data[0].latitude?.toString() || '',
-        longitude: getGeolocationResponse.data.data[0].longitude?.toString() || '',
+    if (getGeolocationResponse.isSuccess && reviewFormData) {
+      createReview({
+        userName: reviewFormData.name,
+        rating: reviewFormData.rating,
+        reviewText: reviewFormData.reviewText,
+        locationName: getGeolocationResponse.data?.data[0].name || '',
+        countryId: getGeolocationResponse.data?.data[0].country_code || '',
+        latitude: getGeolocationResponse.data?.data[0].latitude?.toString() || '',
+        longitude: getGeolocationResponse.data?.data[0].longitude?.toString() || '',
       });
     }
   }, [getGeolocationResponse.isSuccess]);
-
-  useEffect(() => {
-    if (createLocationResponse.isLoading) return;
-    if (createLocationResponse.isSuccess && reviewFormData) {
-      createReview({
-        userName: reviewFormData.name,
-        locationId: createLocationResponse.data.locationId,
-        rating: reviewFormData.rating,
-        reviewText: reviewFormData.reviewText,
-      });
-    }
-  }, [createLocationResponse.isSuccess]);
-
-  useEffect(() => {
-    if (getGeolocationIdResponse.isLoading) return;
-    if (getGeolocationIdResponse.isSuccess && reviewFormData && getGeolocationIdResponse.data) {
-      createReview({
-        userName: reviewFormData.name,
-        locationId: getGeolocationIdResponse.data.locationId,
-        rating: reviewFormData.rating,
-        reviewText: reviewFormData.reviewText,
-      });
-    }
-  }, [getGeolocationIdResponse.isSuccess]);
 
   return (
     <>

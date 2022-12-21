@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import {
   LocationPOSTResponse,
-  LocationPOSTRequest,
   LocationGETResponse,
   ReviewsPOSTRequest,
   ReviewsPOSTResponse,
   ReviewsGETResponse,
   GeolocationResponse,
+  LocationIdGETResponse,
 } from 'types/queryTypes';
 
 const BASE_URL = 'https://immigration-anywhere-be.up.railway.app/';
@@ -35,16 +35,27 @@ export const backend = createApi({
       }),
       providesTags: ['MarkerTag'],
     }),
-    createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
-      async queryFn(arg, api, extraOptions, fetchWithBQ) {
-        //!!!
-        const createLocationResponse = await fetchWithBQ({
+    getGeolocation: builder.query<GeolocationResponse, string>({
+      query: (payload) => ({
+        url: `https://immigration-anywhere-be.up.railway.app/google-maps-api`, //TODO https requests
+        method: 'GET',
+        params: { access_key: TOKEN_GEOLOCATION, query: payload },
+      }),
+    }),
+    createReview: builder.mutation<ReviewsPOSTResponse | FetchBaseQueryError, ReviewsPOSTRequest>({
+      async queryFn(arg, api, extraOptions, baseQuery) {
+        const createLocationResponse = await baseQuery({
           url: `/locations`,
           method: 'POST',
-          body: arg,
+          body: {
+            locationName: arg.locationName,
+            countryId: arg.countryId,
+            latitude: arg.latitude,
+            longitude: arg.longitude,
+          },
         });
         if (createLocationResponse.error) {
-          const getGeolocationIdResponse = await fetchWithBQ({
+          const getGeolocationIdResponse = await baseQuery({
             url: `https://immigration-anywhere-be.up.railway.app/locations/location`, //TODO https requests
             method: 'GET',
             params: {
@@ -52,63 +63,45 @@ export const backend = createApi({
               countryId: arg.countryId,
             },
           });
-          const createReviewResponse = await fetchWithBQ({
+          const { locationId } = getGeolocationIdResponse.data as LocationIdGETResponse;
+          const createReviewResponse = await baseQuery({
             url: `/reviews`,
             method: 'POST',
-            body: arg,
+            body: {
+              userName: arg.userName,
+              locationId: locationId,
+              rating: arg.rating,
+              reviewText: arg.reviewText,
+              locationName: arg.locationName,
+            },
           });
-          return createReviewResponse.data;
+          return { data: createReviewResponse.data as ReviewsPOSTResponse };
         } else if (!createLocationResponse.error) {
-          const createReviewResponse = await fetchWithBQ({
+          const { locationId } = createLocationResponse.data as LocationPOSTResponse;
+          const createReviewResponse = await baseQuery({
             url: `/reviews`,
             method: 'POST',
-            body: arg,
+            body: {
+              userName: arg.userName,
+              locationId: locationId,
+              rating: arg.rating,
+              reviewText: arg.reviewText,
+              locationName: arg.locationName,
+            },
           });
-          return createReviewResponse.data;
+          return createReviewResponse.data
+            ? { data: createReviewResponse.data as ReviewsPOSTResponse }
+            : { error: createReviewResponse.error as FetchBaseQueryError };
         }
       },
       invalidatesTags: ['MarkerTag'],
     }),
-    // createLocation: builder.mutation<LocationPOSTResponse, LocationPOSTRequest>({
-    //   query: (payload) => ({
-    //     url: `/locations`,
-    //     method: 'POST',
-    //     body: payload,
-    //   }),
-    // }),
-    // createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
-    //   query: (payload) => ({
-    //     url: `/reviews`,
-    //     method: 'POST',
-    //     body: payload,
-    //   }),
-    //   invalidatesTags: ['MarkerTag'],
-    // }),
-    // getGeolocation: builder.query<GeolocationResponse, string>({
-    //   query: (payload) => ({
-    //     url: `https://immigration-anywhere-be.up.railway.app/google-maps-api`, //TODO https requests
-    //     method: 'GET',
-    //     params: { access_key: TOKEN_GEOLOCATION, query: payload },
-    //   }),
-    // }),
-    // getGeolocationId: builder.query<
-    //   { locationId: string },
-    //   { locationName: string; countryId: string }
-    // >({
-    //   query: (payload) => ({
-    //     url: `https://immigration-anywhere-be.up.railway.app/locations/location`, //TODO https requests
-    //     method: 'GET',
-    //     params: { locationName: payload.locationName, countryId: payload.countryId },
-    //   }),
-    // }),
   }),
 });
 
 export const {
-  // useCreateLocationMutation,
   useGetLocationsQuery,
   useCreateReviewMutation,
   useGetReviewsQuery,
-  // useGetGeolocationQuery,
-  // useGetGeolocationIdQuery,
+  useGetGeolocationQuery,
 } = backend;
