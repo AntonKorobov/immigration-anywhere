@@ -42,7 +42,7 @@ export const backend = createApi({
         params: { access_key: TOKEN_GEOLOCATION, query: payload },
       }),
     }),
-    createReview: builder.mutation<ReviewsPOSTResponse | FetchBaseQueryError, ReviewsPOSTRequest>({
+    createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
       async queryFn(arg, api, extraOptions, baseQuery) {
         const createLocationResponse = await baseQuery({
           url: `/locations`,
@@ -75,8 +75,10 @@ export const backend = createApi({
               locationName: arg.locationName,
             },
           });
-          return { data: createReviewResponse.data as ReviewsPOSTResponse };
-        } else if (!createLocationResponse.error) {
+          return createReviewResponse.data
+            ? { data: createReviewResponse.data as ReviewsPOSTResponse }
+            : { error: createReviewResponse.error as FetchBaseQueryError };
+        } else {
           const { locationId } = createLocationResponse.data as LocationPOSTResponse;
           const createReviewResponse = await baseQuery({
             url: `/reviews`,
