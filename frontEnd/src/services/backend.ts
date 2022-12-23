@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import {
   LocationPOSTResponse,
-  LocationPOSTRequest,
   LocationGETResponse,
   ReviewsPOSTRequest,
   ReviewsPOSTResponse,
   ReviewsGETResponse,
   GeolocationResponse,
+  LocationIdGETResponse,
 } from 'types/queryTypes';
 
 const BASE_URL = 'https://immigration-anywhere-be.up.railway.app/';
@@ -20,13 +20,6 @@ export const backend = createApi({
   }),
   tagTypes: ['MarkerTag'],
   endpoints: (builder) => ({
-    createLocation: builder.mutation<LocationPOSTResponse, LocationPOSTRequest>({
-      query: (payload) => ({
-        url: `/locations`,
-        method: 'POST',
-        body: payload,
-      }),
-    }),
     getLocations: builder.query<LocationGETResponse[], void>({
       query: (payload) => ({
         url: `/locations`,
@@ -34,14 +27,6 @@ export const backend = createApi({
         body: payload,
       }),
       providesTags: ['MarkerTag'],
-    }),
-    createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
-      query: (payload) => ({
-        url: `/reviews`,
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['MarkerTag'],
     }),
     getReviews: builder.query<ReviewsGETResponse[], string>({
       query: (payload) => ({
@@ -57,24 +42,68 @@ export const backend = createApi({
         params: { access_key: TOKEN_GEOLOCATION, query: payload },
       }),
     }),
-    getGeolocationId: builder.query<
-      { locationId: string },
-      { locationName: string; countryId: string }
-    >({
-      query: (payload) => ({
-        url: `https://immigration-anywhere-be.up.railway.app/locations/location`, //TODO https requests
-        method: 'GET',
-        params: { locationName: payload.locationName, countryId: payload.countryId },
-      }),
+    createReview: builder.mutation<ReviewsPOSTResponse, ReviewsPOSTRequest>({
+      async queryFn(arg, api, extraOptions, baseQuery) {
+        const createLocationResponse = await baseQuery({
+          url: `/locations`,
+          method: 'POST',
+          body: {
+            locationName: arg.locationName,
+            countryId: arg.countryId,
+            latitude: arg.latitude,
+            longitude: arg.longitude,
+          },
+        });
+        if (createLocationResponse.error) {
+          const getGeolocationIdResponse = await baseQuery({
+            url: `https://immigration-anywhere-be.up.railway.app/locations/location`, //TODO https requests
+            method: 'GET',
+            params: {
+              locationName: arg.locationName,
+              countryId: arg.countryId,
+            },
+          });
+          const { locationId } = getGeolocationIdResponse.data as LocationIdGETResponse;
+          const createReviewResponse = await baseQuery({
+            url: `/reviews`,
+            method: 'POST',
+            body: {
+              userName: arg.userName,
+              locationId: locationId,
+              rating: arg.rating,
+              reviewText: arg.reviewText,
+              locationName: arg.locationName,
+            },
+          });
+          return createReviewResponse.data
+            ? { data: createReviewResponse.data as ReviewsPOSTResponse }
+            : { error: createReviewResponse.error as FetchBaseQueryError };
+        } else {
+          const { locationId } = createLocationResponse.data as LocationPOSTResponse;
+          const createReviewResponse = await baseQuery({
+            url: `/reviews`,
+            method: 'POST',
+            body: {
+              userName: arg.userName,
+              locationId: locationId,
+              rating: arg.rating,
+              reviewText: arg.reviewText,
+              locationName: arg.locationName,
+            },
+          });
+          return createReviewResponse.data
+            ? { data: createReviewResponse.data as ReviewsPOSTResponse }
+            : { error: createReviewResponse.error as FetchBaseQueryError };
+        }
+      },
+      invalidatesTags: ['MarkerTag'],
     }),
   }),
 });
 
 export const {
-  useCreateLocationMutation,
   useGetLocationsQuery,
   useCreateReviewMutation,
   useGetReviewsQuery,
   useGetGeolocationQuery,
-  useGetGeolocationIdQuery,
 } = backend;

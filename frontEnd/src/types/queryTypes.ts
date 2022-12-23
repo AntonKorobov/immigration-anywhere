@@ -1,6 +1,12 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+
 export interface LocationGETResponse {
   coordinates: { latitude: string; longitude: string };
   id: string;
+}
+
+export interface LocationIdGETResponse {
+  locationId: string;
 }
 
 export interface LocationPOSTRequest {
@@ -24,14 +30,18 @@ export interface ReviewsGETResponse {
 
 export interface ReviewsPOSTRequest {
   userName: string;
-  locationId: string;
   rating: string;
   reviewText: string;
+  locationName: string;
+  countryId: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface ReviewsPOSTResponse {
-  statusCode: string; //!!!
+  statusCode: string;
 }
+// QueryReturnValue<FetchBaseQueryError | ReviewsPOSTResponse, FetchBaseQueryError, unknown>
 
 export interface GeolocationResponse {
   data: {
