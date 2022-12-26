@@ -7,6 +7,7 @@ import Pin from './WorldMapPin';
 
 import './WorldMap.scss';
 import MapSettings from 'components/MapSettings/MapSettings';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 const TOKEN =
   'pk.eyJ1IjoibmV3YW50b24iLCJhIjoiY2xidnl2OHlrMHJ2eTN3bXNteGN6a2MyYSJ9.stAVYrO5EP2Xu89LUrgUHA';
@@ -18,6 +19,7 @@ interface GlobalMapInterface {
 export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
   const { setLocationId } = useActions();
   const { data } = useGetLocationsQuery();
+  const { settings } = useTypedSelector((state) => state.globalState);
 
   const pins = useMemo(
     () =>
@@ -59,7 +61,7 @@ export function WorldMap({ setIsReviewsOpen }: GlobalMapInterface) {
         style={{ width: '100%', height: '100%' }}
         // mapStyle="mapbox://styles/newanton/clbwa240n008014o9alqq0tt7"
         mapStyle="mapbox://styles/mapbox/light-v11"
-        // projection={'globe'}
+        projection={settings.mapType}
       >
         {pins}
       </Map>
