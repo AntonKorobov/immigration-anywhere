@@ -1,3 +1,4 @@
+import LanguageButton from 'components/LanguageButton/LanguageButton';
 import React from 'react';
 
 import './Header.scss';
@@ -13,6 +14,7 @@ export function Header() {
             <span className="h1_highlight">ANYWHERE</span>
           </h1>
         </a>
+        <LanguageButton />
       </div>
     </header>
   );

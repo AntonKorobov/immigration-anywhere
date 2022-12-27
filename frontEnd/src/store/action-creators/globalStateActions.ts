@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MapType, settingInterface } from 'types/settingsType';
+import { LanguageType, MapType, settingInterface } from 'types/settingsType';
 
 interface GlobalStateInterface {
   locationId: string;
@@ -7,13 +7,14 @@ interface GlobalStateInterface {
   settings: settingInterface;
 }
 
+const settings = localStorage.getItem('settings');
+
 const initialState: GlobalStateInterface = {
   locationId: '',
   isReviewFormOpen: false,
   settings: {
-    mapType:
-      (JSON.parse(localStorage.getItem('settings') || '') as settingInterface).mapType ||
-      MapType.flat,
+    mapType: settings ? (JSON.parse(settings) as settingInterface).mapType : MapType.flat,
+    language: settings ? (JSON.parse(settings) as settingInterface).language : LanguageType.by,
   },
 };
 

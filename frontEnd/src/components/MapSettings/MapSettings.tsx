@@ -14,7 +14,7 @@ export default function MapSettings({ show, onHide }: MapSettingsPropsInterface)
   const { setSettings } = useActions();
 
   const onSelectHandler = (event: React.FormEvent<HTMLSelectElement>) => {
-    setSettings({ mapType: event.currentTarget.value as MapType });
+    setSettings({ ...settings, mapType: event.currentTarget.value as MapType });
   };
 
   return (
