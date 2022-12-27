@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { MapType, settingInterface } from 'types/settingsType';
 
 interface GlobalStateInterface {
   locationId: string;
   isReviewFormOpen: boolean;
+  settings: settingInterface;
 }
 
 const initialState: GlobalStateInterface = {
   locationId: '',
   isReviewFormOpen: false,
+  settings: {
+    mapType:
+      (JSON.parse(localStorage.getItem('settings') || '') as settingInterface).mapType ||
+      MapType.flat,
+  },
 };
 
 export const globalStateActionsCreator = createSlice({
@@ -24,6 +31,13 @@ export const globalStateActionsCreator = createSlice({
       return {
         ...state,
         isReviewFormOpen: action.payload,
+      };
+    },
+    setSettings: (state, action: PayloadAction<settingInterface, string>) => {
+      localStorage.setItem('settings', JSON.stringify({ ...action.payload }));
+      return {
+        ...state,
+        settings: { ...action.payload },
       };
     },
   },

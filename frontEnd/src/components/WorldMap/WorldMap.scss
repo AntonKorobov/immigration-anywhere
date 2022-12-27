@@ -1,4 +1,5 @@
 .world-map {
+  position: relative;
   height: 100vw;
 }
 
@@ -15,4 +16,20 @@
 
 .mapboxgl-control-container {
   display: none;
+}
+
+.map-button {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  border: none;
+  background: none;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.map-button__img {
+  width: 6rem;
 }
