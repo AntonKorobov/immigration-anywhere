@@ -11,8 +11,9 @@ const initialState: GlobalStateInterface = {
   locationId: '',
   isReviewFormOpen: false,
   settings: {
-    // mapType: JSON.parse(localStorage.getItem('settings')).mapType || MapType.flat,
-    mapType: MapType.flat,
+    mapType:
+      (JSON.parse(localStorage.getItem('settings') || '') as settingInterface).mapType ||
+      MapType.flat,
   },
 };
 
@@ -33,10 +34,10 @@ export const globalStateActionsCreator = createSlice({
       };
     },
     setSettings: (state, action: PayloadAction<settingInterface, string>) => {
-      localStorage.setItem('settings', JSON.stringify(action.payload));
+      localStorage.setItem('settings', JSON.stringify({ ...action.payload }));
       return {
         ...state,
-        settings: action.payload,
+        settings: { ...action.payload },
       };
     },
   },
