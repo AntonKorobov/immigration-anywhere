@@ -5,6 +5,7 @@ import { Loading } from 'components/Loading/Loading';
 import { useCreateReviewMutation, useGetGeolocationQuery } from 'services/backend';
 
 import './ReviewForm.scss';
+import { MultiLangText } from 'components/MultiLangText/MultiLangText';
 
 interface ReviewFormInterface {
   name: string;
@@ -15,6 +16,7 @@ interface ReviewFormInterface {
 
 export function ReviewForm() {
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
+  const reviewPlaceholder = (<MultiLangText textId="makeReview" />) as unknown as string;
 
   const getGeolocationResponse = useGetGeolocationQuery(reviewFormData?.location || '', {
     skip: Boolean(!reviewFormData?.location),
@@ -49,23 +51,29 @@ export function ReviewForm() {
   return (
     <>
       {createReviewResponse.isSuccess ? (
-        <p className="success-text">Отзыв создан успешно</p>
+        <p className="success-text">
+          <MultiLangText textId="makeReviewSuccess" />
+        </p>
       ) : getGeolocationResponse.isSuccess || getGeolocationResponse.isLoading ? (
         <Loading />
       ) : (
         <form className="review-form" onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="form-group">
-            <label htmlFor="review-form__name-input">{'Имя'}</label>
+            <label htmlFor="review-form__name-input">{<MultiLangText textId="name" />}</label>
             <input
               {...register('name', {
-                required: 'Обязательное поле',
+                required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 15,
-                  message: 'Максимум 15 символов',
+                  message: `${(<MultiLangText textId="max" />)} 15 ${(
+                    <MultiLangText textId="symbols" />
+                  )}`,
                 },
                 minLength: {
                   value: 2,
-                  message: 'Минимум 2 символа',
+                  message: `${(<MultiLangText textId="min" />)} 2 ${(
+                    <MultiLangText textId="symbol" />
+                  )}`,
                 },
               })}
               type="text"
@@ -78,17 +86,23 @@ export function ReviewForm() {
             {errors?.name && <p className="error-message__text">{errors?.name?.message}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="review-form__location-input">{'Расположение'}</label>
+            <label htmlFor="review-form__location-input">
+              {<MultiLangText textId="location" />}
+            </label>
             <input
               {...register('location', {
-                required: 'Обязательное поле',
+                required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 30,
-                  message: 'Максимум 15 символов',
+                  message: `${(<MultiLangText textId="max" />)} 15 ${(
+                    <MultiLangText textId="symbols" />
+                  )}`,
                 },
                 minLength: {
                   value: 2,
-                  message: 'Минимум 2 символа',
+                  message: `${(<MultiLangText textId="min" />)} 2 ${(
+                    <MultiLangText textId="symbol" />
+                  )}`,
                 },
               })}
               type="text"
@@ -102,7 +116,7 @@ export function ReviewForm() {
           </div>
           <div className="form-group">
             <label className="input-element">
-              Рейтинг:
+              <MultiLangText textId="rating" />
               <select {...register('rating')} className="input-element__select">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -113,20 +127,24 @@ export function ReviewForm() {
             </label>
           </div>
           <div className="form-group">
-            <label htmlFor="review-form__review-input">{'Отзыв'}</label>
+            <label htmlFor="review-form__review-input">{<MultiLangText textId="review" />}</label>
             <textarea
               {...register('reviewText', {
-                required: 'Обязательное поле',
+                required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 2000,
-                  message: 'Максимум 2000 символов',
+                  message: `${(<MultiLangText textId="max" />)} 2000 ${(
+                    <MultiLangText textId="symbols" />
+                  )}`,
                 },
                 minLength: {
                   value: 10,
-                  message: 'Минимум 10 символов',
+                  message: `${(<MultiLangText textId="min" />)} 10 ${(
+                    <MultiLangText textId="symbols" />
+                  )}`,
                 },
               })}
-              placeholder={'Опишите ваш опыт...'}
+              placeholder={reviewPlaceholder}
               className="form-control review-form__textarea"
               id="review-form__review-input"
             />
@@ -141,7 +159,7 @@ export function ReviewForm() {
             className="btn btn-primary review__button"
             // disabled={!isValid}
           >
-            {'Оставить отзыв'}
+            {<MultiLangText textId="makeReview" />}
           </button>
         </form>
       )}

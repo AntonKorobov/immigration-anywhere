@@ -24,7 +24,7 @@ export function Main() {
   const handleCloseReviews = () => {
     setIsReviewsOpen(false);
     setTimeout(() => {
-      setLocationId(''); // !!! Because animation delay. Window cleaning faster than closing
+      setLocationId(''); // Because animation delay. Window cleaning faster than closing
     }, 200);
   };
 
@@ -32,15 +32,19 @@ export function Main() {
     <div className="main-container">
       <section className="info-section">
         <p className="info-section__text">
-          <MultiLangText textId="intro_1" />
+          <MultiLangText textId="intro1" />
         </p>
         <p className="info-section__small-text">
-          <MultiLangText textId="intro_2" />
+          <MultiLangText textId="intro2" />
         </p>
       </section>
-      {/* <WorldMap setIsReviewsOpen={setIsReviewsOpen} /> */}
+      <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
       <ReviewSection />
-      <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Отзывы'}>
+      <ModalWindow
+        show={isReviewsOpen}
+        onHide={handleCloseReviews}
+        title={(<MultiLangText textId="reviews" />) as unknown as string}
+      >
         <>
           {isSuccess &&
             data.map((item) => (
@@ -53,7 +57,11 @@ export function Main() {
               />
             ))}
           {isLoading && <Loading />}
-          {isError && <p>Не получилось загрузить отзывы. Попробуйте еще раз</p>}
+          {isError && (
+            <p>
+              <MultiLangText textId="noReviews" />
+            </p>
+          )}
         </>
       </ModalWindow>
     </div>
