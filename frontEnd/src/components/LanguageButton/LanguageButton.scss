@@ -1,0 +1,25 @@
+@import '../../styles/colors.module';
+
+.language-button-wrapper {
+  margin-right: 1rem;
+}
+
+.language-button {
+  background-color: gray;
+}
+
+.language-button_active {
+  background-color: white;
+}
+
+.language-form__select {
+  font-size: 1.6rem;
+  padding: 5% 0;
+  background-color: white;
+}
+
+@media (min-width: 480px) {
+  .language-form__select {
+    font-size: 2rem;
+  }
+}

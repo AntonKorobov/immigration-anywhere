@@ -10,6 +10,7 @@ import { Loading } from 'components/Loading/Loading';
 import { useActions } from 'hooks/useActions';
 
 import './Main.scss';
+import { MultiLangText } from 'components/MultiLangText/MultiLangText';
 
 export function Main() {
   const { locationId } = useTypedSelector((state) => state.globalState);
@@ -23,7 +24,7 @@ export function Main() {
   const handleCloseReviews = () => {
     setIsReviewsOpen(false);
     setTimeout(() => {
-      setLocationId(''); // !!! Because animation delay. Window cleaning faster than closing
+      setLocationId(''); // Because animation delay. Window cleaning faster than closing
     }, 200);
   };
 
@@ -31,14 +32,19 @@ export function Main() {
     <div className="main-container">
       <section className="info-section">
         <p className="info-section__text">
-          Большое количество белорусов сейчас живут в<br />
-          различных странах мира.
+          <MultiLangText textId="intro1" />
         </p>
-        <p className="info-section__small-text">Вот что они говорят:</p>
+        <p className="info-section__small-text">
+          <MultiLangText textId="intro2" />
+        </p>
       </section>
       <WorldMap setIsReviewsOpen={setIsReviewsOpen} />
       <ReviewSection />
-      <ModalWindow show={isReviewsOpen} onHide={handleCloseReviews} title={'Отзывы'}>
+      <ModalWindow
+        show={isReviewsOpen}
+        onHide={handleCloseReviews}
+        _title={(<MultiLangText textId="reviews" />) as unknown as string}
+      >
         <>
           {isSuccess &&
             data.map((item) => (
@@ -51,7 +57,11 @@ export function Main() {
               />
             ))}
           {isLoading && <Loading />}
-          {isError && <p>Не получилось загрузить отзывы. Попробуйте еще раз</p>}
+          {isError && (
+            <p>
+              <MultiLangText textId="noReviews" />
+            </p>
+          )}
         </>
       </ModalWindow>
     </div>
