@@ -6,7 +6,7 @@ import './Header.scss';
 export function Header() {
   return (
     <header className="header">
-      <div className="container">
+      <div className="container header__container">
         <a href="#" className="title link">
           <img className="title__img" src="assets/logo 1.png" alt="logo" />
           <h1 className="title__h1 h1">
