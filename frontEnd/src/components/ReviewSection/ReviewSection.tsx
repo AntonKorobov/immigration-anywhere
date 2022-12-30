@@ -32,7 +32,7 @@ export function ReviewSection() {
       <ModalWindow
         show={isReviewFormOpen}
         onHide={handleCloseReviewForm}
-        title={(<MultiLangText textId="makeReview" />) as unknown as string}
+        _title={(<MultiLangText textId="makeReview" />) as unknown as string}
       >
         <ReviewForm />
       </ModalWindow>

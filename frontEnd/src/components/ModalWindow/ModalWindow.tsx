@@ -7,7 +7,7 @@ interface ModalWindowInterface {
   children: JSX.Element;
   show: boolean;
   onHide: () => void;
-  title: string;
+  _title: string;
 }
 
 export function ModalWindow(props: ModalWindowInterface) {
@@ -20,7 +20,7 @@ export function ModalWindow(props: ModalWindowInterface) {
       className="modal-window"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">{props.title}</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">{props._title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{props.children}</Modal.Body>
     </Modal>

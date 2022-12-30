@@ -14,13 +14,18 @@ export const languages: LanguagesType = {
     makeReviewSuccess: 'Водгук створаны паспяхова',
     requiredField: 'Абавязковае поле',
     name: 'Імя',
-    location: 'Размяшчэнне',
+    location: 'Горад/Населены пункт',
     rating: 'Рэйтынг:',
     describeYourExperience: 'Апішыце ваш досвед...',
-    max: 'Максімум',
-    min: 'Мінімум',
-    symbols: 'сімвалаў',
-    symbol: 'сімвала',
+    validationMax15: 'Максімум 15 сімвалаў',
+    validationMax30: 'Максімум 30 сімвалаў',
+    validationMax2000: 'Максімум 2000 сімвалаў',
+    validationMin2: 'Мінімум 2 сімвала',
+    validationMin10: 'Мінімум 10 сімвалаў',
+    settings: 'Наладкі',
+    mapType: 'Тып мапы:',
+    flatMap: 'Плоская',
+    globeMap: 'Глобус',
   },
   russian: {
     langSign: 'РУС',
@@ -35,13 +40,18 @@ export const languages: LanguagesType = {
     makeReviewSuccess: 'Отзыв создан успешно',
     requiredField: 'Обязательное поле',
     name: 'Имя',
-    location: 'Расположение',
+    location: 'Город/Населенный пункт',
     rating: 'Рейтинг:',
     describeYourExperience: 'Опишите ваш опыт...',
-    max: 'Максимум',
-    min: 'Минимум',
-    symbols: 'символов',
-    symbol: 'символа',
+    validationMax15: 'Максимум 15 символов',
+    validationMax30: 'Максимум 30 символов',
+    validationMax2000: 'Максимум 2000 символов',
+    validationMin2: 'Минимум 2 символа',
+    validationMin10: 'Минимум 10 символов',
+    settings: 'Настройки',
+    mapType: 'Тип карты:',
+    flatMap: 'Плоская',
+    globeMap: 'Глобус',
   },
 };
 
@@ -65,8 +75,13 @@ export interface LanguageInterface {
   location: string;
   rating: string;
   describeYourExperience: string;
-  max: string;
-  min: string;
-  symbols: string;
-  symbol: string;
+  validationMax15: string;
+  validationMax30: string;
+  validationMax2000: string;
+  validationMin2: string;
+  validationMin10: string;
+  settings: string;
+  mapType: string;
+  flatMap: string;
+  globeMap: string;
 }

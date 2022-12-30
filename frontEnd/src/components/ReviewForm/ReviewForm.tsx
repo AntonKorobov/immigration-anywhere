@@ -6,6 +6,7 @@ import { useCreateReviewMutation, useGetGeolocationQuery } from 'services/backen
 
 import './ReviewForm.scss';
 import { MultiLangText } from 'components/MultiLangText/MultiLangText';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 interface ReviewFormInterface {
   name: string;
@@ -15,8 +16,8 @@ interface ReviewFormInterface {
 }
 
 export function ReviewForm() {
+  const { settings } = useTypedSelector((state) => state.globalState);
   const [reviewFormData, setReviewFormData] = useState<ReviewFormInterface | null>();
-  const reviewPlaceholder = (<MultiLangText textId="makeReview" />) as unknown as string;
 
   const getGeolocationResponse = useGetGeolocationQuery(reviewFormData?.location || '', {
     skip: Boolean(!reviewFormData?.location),
@@ -65,15 +66,11 @@ export function ReviewForm() {
                 required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 15,
-                  message: `${(<MultiLangText textId="max" />)} 15 ${(
-                    <MultiLangText textId="symbols" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMax15" />) as unknown as string,
                 },
                 minLength: {
                   value: 2,
-                  message: `${(<MultiLangText textId="min" />)} 2 ${(
-                    <MultiLangText textId="symbol" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMin2" />) as unknown as string,
                 },
               })}
               type="text"
@@ -94,15 +91,11 @@ export function ReviewForm() {
                 required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 30,
-                  message: `${(<MultiLangText textId="max" />)} 15 ${(
-                    <MultiLangText textId="symbols" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMax30" />) as unknown as string,
                 },
                 minLength: {
                   value: 2,
-                  message: `${(<MultiLangText textId="min" />)} 2 ${(
-                    <MultiLangText textId="symbol" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMin2" />) as unknown as string,
                 },
               })}
               type="text"
@@ -133,18 +126,16 @@ export function ReviewForm() {
                 required: (<MultiLangText textId="requiredField" />) as unknown as string,
                 maxLength: {
                   value: 2000,
-                  message: `${(<MultiLangText textId="max" />)} 2000 ${(
-                    <MultiLangText textId="symbols" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMax2000" />) as unknown as string,
                 },
                 minLength: {
                   value: 10,
-                  message: `${(<MultiLangText textId="min" />)} 10 ${(
-                    <MultiLangText textId="symbols" />
-                  )}`,
+                  message: (<MultiLangText textId="validationMin10" />) as unknown as string,
                 },
               })}
-              placeholder={reviewPlaceholder}
+              placeholder={
+                settings.language === 'belarusian' ? 'Апішыце ваш досвед...' : 'Опишите ваш опыт...' //TODO fix placeholder [object Object] error
+              }
               className="form-control review-form__textarea"
               id="review-form__review-input"
             />

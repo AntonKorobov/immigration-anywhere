@@ -43,7 +43,7 @@ export function Main() {
       <ModalWindow
         show={isReviewsOpen}
         onHide={handleCloseReviews}
-        title={(<MultiLangText textId="reviews" />) as unknown as string}
+        _title={(<MultiLangText textId="reviews" />) as unknown as string}
       >
         <>
           {isSuccess &&
